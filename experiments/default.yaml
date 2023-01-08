@@ -1,0 +1,32 @@
+DATA_DIR: './dataset/FaceForensics++/extract'
+GPUS: (0,)
+LOG_DIR: './log'
+OUTPUT_DIR: './result'
+WORKERS: 32
+BATCH_SIZE: 32
+
+DATASET:
+  TRAIN_SET:
+    COMPRESSION: 'raw'
+    BLENDED_IMAGES:
+      CANDIDATES: 100
+      SUBSET_SIZE: 3000
+      USE: true
+    FF_USE: []
+  VAL_SET:
+    COMPRESSION: 'raw'
+    FF_USE:
+      - 'Face2Face'
+
+TRAIN:
+  LAMBDA: 100
+  LR: 0.0002
+  OPTIMIZER: Adam
+  LR_STEP:
+    - 12
+    - 16
+    - 20
+    - 25
+  GAMMA: 0.3
+  TOTAL_EPOCHS: 30
+  WARM_UP_EPOCHS: 10
