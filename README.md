@@ -84,7 +84,7 @@ The detect script is borrowed from [FaceForensics++ official repository](https:/
 
 - My trained Face X-Ray model
 
-  [BaiduYun(Access Code:72qw)](https://pan.baidu.com/s/1Ka3xAfFIyrXa3PdYKTF2Bg).
+  [BaiduYun(Access Code:72qw)](https://pan.baidu.com/s/1Ka3xAfFIyrXa3PdYKTF2Bg) / [Google Drive](https://drive.google.com/file/d/1Vb2sCfeEdQejSSPjlBwNyeXiUMCTOR-H/view?usp=sharing)
 
 - dlib model
 
