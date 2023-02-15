@@ -94,7 +94,7 @@ The detect script is borrowed from [FaceForensics++ official repository](https:/
 
 I only experimented on the FaceForensics++ dataset. Due to limited time, I did not do more exploration on the details of data preprocessing and training process, so the AUC is relatively low compared to the data in the paper.
 
-| Model      | Training Set   | DF Test Set AUC | F2F Test Set AUC | DF Test Set AUC | DF Test Set AUC |
-| ---------- | -------------- | --------------- | ---------------- | --------------- | --------------- |
+| Model      | Training Set   | DF Test Set AUC | F2F Test Set AUC | FS Test Set AUC | NT Test Set AUC |
+| ---------- | -------------- | --------------- | ---------------- |-----------------|-----------------|
 | Face X-ray | Blended Images | 99.252          | 96.276           | 98.666          | 96.408          |
 
