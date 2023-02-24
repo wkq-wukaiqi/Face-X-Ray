@@ -256,22 +256,26 @@ def main(args):
             if 'original' in dataset_path:
                 frame_count, face_miss_count = extract_frames(join(videos_path, video),
                                                               join(images_path, image_folder),
+                                                              compression=args.compression,
                                                               video_type='original',
                                                               is_train=is_train)
             elif 'NeuralTextures' in dataset_path:
                 frame_count, face_miss_count = extract_frames(join(videos_path, video),
                                                               join(images_path, image_folder),
+                                                              compression=args.compression,
                                                               video_type='NeuralTextures',
                                                               is_train=is_train)
             else:
                 frame_count, face_miss_count = extract_frames(join(videos_path, video),
                                                               join(images_path, image_folder),
+                                                              compression=args.compression,
                                                               video_type='other',
                                                               is_train=is_train)
             if not is_train:
                 dataset_frame_count += frame_count
                 dataset_face_miss_count += face_miss_count
         print(f'dataset:{dataset_path} TEST_SET frame:{dataset_frame_count} miss:{dataset_face_miss_count}')
+        os.makedirs(join(args.output_path, dataset_path),exist_ok=True)
         out_file = join(args.output_path, dataset_path, 'test_miss.txt')
         with open(out_file, 'w') as f:
             f.write(f'{dataset_frame_count}\n{dataset_face_miss_count}')
