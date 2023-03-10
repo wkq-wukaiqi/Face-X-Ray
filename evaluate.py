@@ -63,13 +63,8 @@ def test(model, test_loader, auc, criterion_cls, criterion_mask=None, lamb=100):
 
             # auc
             auc.update(cls_softmax, cls_target.long())
-            auc_cur = auc.compute().item() * 100
 
-            loop.set_description('Testing')
-            loop.set_postfix(loss=f'{loss.avg:.4f}', AUC=f'{auc_cur:.3f}',
-                             acc=f'{acc_meter.avg:.3f}')
-
-    return loss.avg, auc_cur, acc_meter.avg
+    return loss.avg, auc.compute().item() * 100, acc_meter.avg
 
 
 def main(args):

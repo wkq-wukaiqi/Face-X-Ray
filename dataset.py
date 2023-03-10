@@ -75,6 +75,7 @@ class FFDataset(Dataset):
 
         # 读取原始视频帧索引
         real_image_base_path = os.path.join(self.root_dir,
+                                            'extract',
                                             'original_sequences',
                                             'youtube',
                                             self.compression,
@@ -87,12 +88,14 @@ class FFDataset(Dataset):
             dir_path = os.path.join(real_image_base_path, dir)
             file_list = os.listdir(dir_path)
             for file in file_list:
-                self.real_images.append(str(os.path.join(dir_path, file)).replace('\\', '/'))
-
+                if file[-4:] == '.png':
+                    self.real_images.append(str(os.path.join(dir_path, file)).replace('\\', '/'))
+        
         # 读取伪造视频帧索引
         fake_images_base_paths = []
         for dataset_name in self.ff_datasets:
             fake_images_base_paths.append(os.path.join(self.root_dir,
+                                                       'extract',
                                                        'manipulated_sequences', dataset_name, self.compression,
                                                        'images'))
 
@@ -104,7 +107,8 @@ class FFDataset(Dataset):
                 dir_path = os.path.join(base_path, dir)
                 file_list = os.listdir(dir_path)
                 for file in file_list:
-                    self.fake_images.append(str(os.path.join(dir_path, file)).replace('\\', '/'))
+                    if file[-4:] == '.png':
+                        self.fake_images.append(str(os.path.join(dir_path, file)).replace('\\', '/'))
 
         self.distortion = iaa.Sequential([iaa.PiecewiseAffine(scale=(0.01, 0.15))])
         self.landmarks_dict = {}
@@ -125,7 +129,13 @@ class FFDataset(Dataset):
         }
         print('==> Loading landmarks...')
         for dataset_path in DATASET_PATHS.values():
-            landmarks_dir_path = os.path.join(self.root_dir, dataset_path, self.compression, 'landmarks')
+            landmarks_dir_path = os.path.join(
+                self.root_dir, 
+                'extract', 
+                dataset_path, 
+                self.compression, 
+                'landmarks'
+            )
             landmarks_path = []
             landmarks_dirs = os.listdir(landmarks_dir_path)
 

@@ -1,8 +1,8 @@
-DATA_DIR: './dataset/FaceForensics++/extract'
+DATA_DIR: './dataset/FaceForensics++/'
 GPUS: (0,)
 LOG_DIR: './log'
 OUTPUT_DIR: './result'
-WORKERS: 32
+WORKERS: 16
 BATCH_SIZE: 32
 
 DATASET:

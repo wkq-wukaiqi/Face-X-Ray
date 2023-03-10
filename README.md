@@ -17,7 +17,7 @@ pip install -r requirements.txt
 You can extract raw faces, manipulated faces, manipulation mask and face landmarks (saved as `.npy` file) of FaceForensics++ dataset by:
 
 ```shell
-python ./dataset/FaceForensics++/extract_faces.py -d ./ -o ./extract -c raw
+python extract_faces.py -d ./dataset/FaceForensics++ -o ./dataset/FaceForensics++/extract -c raw
 ```
 
 Notice the dataset directory should be organized as follows:
@@ -59,7 +59,7 @@ The blended image in the paper is generated online during training(`dataset.py`)
 You can evaluate the trained model by running:
 
 ```shell
-python evaluate.py --ckpt_dir ./result/result_xxxx -d Deepfakes Face2Face -c raw -r ./dataset/FaceForensics++ -o ./log
+python evaluate.py --ckpt_dir ./result/xxx -d Deepfakes -c raw -r ./dataset/FaceForensics++ -o ./log
 ```
 
 ### Detect A Video

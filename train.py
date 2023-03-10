@@ -91,12 +91,12 @@ def train(cfg, epoch, model, train_loader, criterion_mask, criterion_cls, optimi
     return loss.avg, auc_cur
 
 
-def validate(epoch, model, test_loader, criterion_mask, criterion_cls, auc):
+def validate(epoch, model, val_loader, criterion_mask, criterion_cls, auc):
     """
     验证
     :param epoch: 轮次
     :param model: 模型
-    :param test_loader: 训练数据loader
+    :param val_loader: 训练数据loader
     :param criterion_mask: mask的损失函数
     :param criterion_cls: 二分类的损失函数
     :param auc: torchmetrics，用于计算auc
@@ -107,7 +107,8 @@ def validate(epoch, model, test_loader, criterion_mask, criterion_cls, auc):
 
     loss = AverageMeter('loss')
     acc_meter = AverageMeter('acc')
-    loop = tqdm(enumerate(test_loader), total=len(test_loader))
+    loop = tqdm(enumerate(val_loader), total=len(val_loader))
+    loop.set_description(f'Val Epoch:[{epoch}/{cfg.TRAIN.TOTAL_EPOCHS}]')
 
     with torch.no_grad():
         for batch_idx, (image, mask, cls_target) in loop:
@@ -134,13 +135,8 @@ def validate(epoch, model, test_loader, criterion_mask, criterion_cls, auc):
             acc_meter.update(acc, n)
 
             auc.update(cls_softmax, cls_target.long())
-            auc_cur = auc.compute().item() * 100
 
-            loop.set_description(f'Test Epoch:[{epoch}/{cfg.TRAIN.TOTAL_EPOCHS}]')
-            loop.set_postfix(loss=f'{loss.avg:.4f}', AUC=f'{auc_cur:.3f}',
-                             acc=f'{acc_meter.avg:.3f}')
-
-    return loss.avg, auc_cur, acc_meter.avg
+    return loss.avg, auc.compute().item() * 100, acc_meter.avg
 
 
 def main(args):
@@ -152,7 +148,7 @@ def main(args):
     logger_name = f'train_logger{time_str}_{os.path.basename(config_file)[:-5]}.log'
     print_logger = get_logger(os.path.join(cfg.LOG_DIR, logger_name))
 
-    output_dir = cfg.OUTPUT_DIR + '_' + time_str
+    output_dir = os.path.join(cfg.OUTPUT_DIR, time_str)
 
     print_logger.info(pprint.pformat(args))
     print_logger.info(pprint.pformat(cfg))
@@ -225,14 +221,14 @@ def main(args):
         auc.reset()
 
         # 验证一轮
-        test_loss, test_auc, test_acc = validate(epoch, net, val_loader, criterion_mask, criterion_cls, auc)
+        val_loss, val_auc, val_acc = validate(epoch, net, val_loader, criterion_mask, criterion_cls, auc)
         auc.reset()
-        print_logger.info(f'==> Validate loss:{test_loss:.3f} AUC:{test_auc :.3f}')
+        print_logger.info(f'==> Validate loss:{val_loss:.3f} AUC:{val_auc :.3f}')
 
         # 更新最佳验证auc
         is_best = False
-        if test_auc > best_auc:
-            best_auc = test_auc
+        if val_auc > best_auc:
+            best_auc = val_auc
             is_best = True
 
         epoch += 1

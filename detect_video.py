@@ -184,7 +184,7 @@ def main(args):
 
     test_full_image_network(video_path=args.video,
                             model=net,
-                            output_path='./')
+                            output_path=args.output_dir)
 
 
 def parse_args():
@@ -193,8 +193,7 @@ def parse_args():
     parser.add_argument('-v', '--video', type=str, help='Video to detect')
     parser.add_argument('-o', '--output_dir', type=str, default='./detect_result',
                         help='Directory to output the result')
-    args = parser.parse_args()
-    main(args)
+    return parser.parse_args()
 
 
 if __name__ == '__main__':

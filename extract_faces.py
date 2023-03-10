@@ -6,6 +6,7 @@ import dlib
 import numpy as np
 import json
 import argparse
+import os
 
 # 子数据集下载默认路径
 DATASET_PATHS = {
@@ -221,13 +222,13 @@ def get_split_index(split_dir):
 def parse_args():
     parser = argparse.ArgumentParser()
     # 数据集根目录
-    parser.add_argument('-d', '--data_path', type=str, default='./',
+    parser.add_argument('-d', '--data_path', type=str,
                         help='FF++ dataset root path')
     # 提取人脸输出文件夹
-    parser.add_argument('-o', '--output_path', type=str, default='./extract',
+    parser.add_argument('-o', '--output_path', type=str,
                         help='output path')
     # 训练、验证、测试切分文件夹
-    parser.add_argument('-s', '--split_dir', type=str, default='./split',
+    parser.add_argument('-s', '--split_dir', type=str, default='./dataset/FaceForensics++/splits',
                         help='directory of the split json file')
     # 数据压缩
     parser.add_argument('-c', '--compression', type=str, default='raw',

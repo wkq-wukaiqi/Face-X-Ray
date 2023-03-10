@@ -5,6 +5,7 @@
 /.vscode/
 /bin/
 **/__pycache__
+/.ipynb_checkpoints
 
 .classpath
 .project
@@ -35,6 +36,11 @@
 *.err
 *.log
 *.iml
+*.png
+*.npy
+*.mp4
+*.pth
+*.dat
 # OS generated files #
 .DS_Store
 .DS_Store?
